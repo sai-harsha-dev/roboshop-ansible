@@ -41,4 +41,3 @@
 
 
 
-ansible-playbook -i=inv.ini -c=local playbook.yml
