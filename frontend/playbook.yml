@@ -1,5 +1,6 @@
 - name:  Setup frontend 
-  hosts: local
+  hosts: localhost
+  connection: local
   remote_user: centos
   tasks:
     - name: install ngnix package 
