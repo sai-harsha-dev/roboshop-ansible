@@ -2,43 +2,8 @@
   hosts: localhost
   connection: local
   become: true
-  tasks:
-    - name: install ngnix package 
-      ansible.builtin.yum:
-        name: nginx
-        state: latest
-
-    - name: Delete /usr/share/nginx/html directory 
-      ansible.builtin.file:
-        path: /usr/share/nginx/html
-        state: absent
-
-    - name: Create /usr/share/nginx/html directory 
-      ansible.builtin.file:
-        path: /usr/share/nginx/html
-        state: directory
-        mode: '0755'
-
-    - name: download application files
-      ansible.builtin.unarchive:
-        src: https://roboshop-artifacts.s3.amazonaws.com/frontend.zip
-        dest: /usr/share/nginx/html
-        remote_src: yes
-      
-    - name: copy roboshop configuration
-      ansible.builtin.template:
-        src: roboshop.j2
-        dest: /etc/nginx/default.d/roboshop.conf
-
-    - name: start nginx
-      ansible.builtin.systemd:
-        name: nginx
-        state: started
-
-    - name: Enable  nginx
-      ansible.builtin.systemd:
-        name: nginx
-        enabled: true
+  roles : 
+    - role
 
 
 
