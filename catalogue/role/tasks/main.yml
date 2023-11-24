@@ -1,0 +1,60 @@
+- name: Run Nodejs shell script
+  ansible.builtin.shell: curl -sL https://rpm.nodesource.com/setup_lts.x | bash
+
+- name: install nodejs package 
+  ansible.builtin.yum:
+    name: nodejs
+    state: latest
+
+- name: create roboshop user
+  ansible.builtin.user:
+    name: roboshop
+
+- name: Create /app directory 
+  ansible.builtin.file:
+    path: /app
+    state: directory
+    mode: '0755'
+
+- name: download application files
+  ansible.builtin.unarchive:
+    src: https://roboshop-artifacts.s3.amazonaws.com/catalogue.zip
+    dest: /app
+    remote_src: yes
+
+- name: Install npm dependencies
+  ansible.builtin.shell: npm install
+  args:
+    chdir: /app
+
+- name: create catalogue systemd file
+  ansible.builtin.template:
+    src: catalogue.j2
+    dest: /etc/systemd/system/
+
+- name: Start catalogue service
+  ansible.builtin.systemd_service:
+    name: catalogue
+    state: started
+    daemon_reload: true
+
+- name: Enable catalogue service 
+  ansible.builtin.systemd_service:
+    name: catalogue
+    enabled: true
+
+- name: Create mongodb repofile
+  ansible.builtin.copy:
+    src: mongodb.repo
+    dest: /etc/yum.repos.d/
+    mode: '0755'
+
+- name: install mongoshell package 
+  ansible.builtin.yum:
+    name: mongodb-org-shell
+    state: latest
+  
+- name: Create catalogue database
+  ansible.builtin.shell: mongo --host {{mongourl}}:27017 --username Harsha --password Harsha7999 </app/schema/catalogue.js
+
+     

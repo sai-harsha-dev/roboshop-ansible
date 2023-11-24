@@ -1,0 +1,6 @@
+- name:  Setup frontend 
+  hosts: localhost
+  connection: local
+  become: true
+  roles : 
+    - role
