@@ -1,4 +1,4 @@
-- name:  Setup frontend 
+- name: Setup frontend 
   hosts: localhost
   connection: local
   become: true
