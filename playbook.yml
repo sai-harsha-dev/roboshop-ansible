@@ -1,5 +1,6 @@
-- name: Setup frontend 
+- name: Setup component
   hosts: localhost
   connection: local
   become: true
-  roles : "{{role}}"
+  roles : 
+    - "{{role}}"
