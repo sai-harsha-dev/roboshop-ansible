@@ -1,0 +1,14 @@
+
+- name: Create mongodb repofile
+  ansible.builtin.copy:
+    src: mongodb.repo
+    dest: /etc/yum.repos.d/
+    mode: '0755'
+
+- name: install mongoshell package 
+  ansible.builtin.yum:
+    name: mongodb-org-shell
+    state: latest
+  
+- name: Create catalogue database
+  ansible.builtin.shell: mongo --host {{mongourl}}:27017 --username Harsha --password Harsha7999 </app/schema/{{component}}.js

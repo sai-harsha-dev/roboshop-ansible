@@ -1,0 +1,27 @@
+- name: Install nodejs
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: nodejs
+
+- name: Create user and download application code
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: user
+
+- name: Install npm dependencies
+  ansible.builtin.shell: npm install
+  args:
+    chdir: /app
+
+- name: Create user and download application code
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: systemd
+
+- name: Create catalgoue database 
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: mongodb
+
+
+     
