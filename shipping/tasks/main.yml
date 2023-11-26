@@ -18,15 +18,15 @@
     src: /app/target/shipping-1.0.jar
     dest: /app/shipping.jar
 
-- name: Configure and start catalgoue service
-  ansible.builtin.import_role:
-    name: common
-    tasks_from: systemd
-
 - name: Install mysql
   ansible.builtin.dnf:
     name: mysql
     state: present
+    
+- name: Configure and start catalgoue service
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: systemd
 
 - name: Create shipping database
   ansible.builtin.shell: mysql -h {{ lookup('amazon.aws.aws_ssm', 'mysqlip', region='us-east-1')  }} -uroot -pRoboShop@1 < /app/schema/shipping.sql
