@@ -18,4 +18,4 @@
   ansible.builtin.shell: npm install
   args:
     chdir: /app
-  when: "{{component}}" == "catalogue" or "{{component}}" == "user" or "{{component}}" == "cart"
+  when: ("{{component}}" == "catalogue" or "{{component}}" == "user" or "{{component}}" == "cart")
