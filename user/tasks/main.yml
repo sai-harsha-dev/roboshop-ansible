@@ -1,0 +1,19 @@
+- name: Install nodejs
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: nodejs
+
+- name: Create user and download application code
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: user
+
+- name: Configure and start user service
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: systemd
+
+- name: Create user database 
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: mongodb

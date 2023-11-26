@@ -1,0 +1,12 @@
+[Unit]
+Description = User Service
+[Service]
+User=roboshop
+Environment=MONGO=true
+Environment=REDIS_HOST={{ lookup('amazon.aws.aws_ssm', 'redisip', region='us-east-1')  }}
+Environment=MONGO_URL="mongodb://Harsha:{{ lookup('amazon.aws.aws_ssm', 'docdbpass', region='us-east-1')  }}@{{ lookup('amazon.aws.aws_ssm', 'mongoip', region='us-east-1')  }}:27017/users"
+ExecStart=/bin/node /app/server.js
+SyslogIdentifier=user
+
+[Install]
+WantedBy=multi-user.target
