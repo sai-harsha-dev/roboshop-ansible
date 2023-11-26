@@ -1,0 +1,37 @@
+- name: Install maven
+  ansible.builtin.dnf:
+    name: maven
+    state: present
+
+- name: Create user and download application code
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: user
+
+- name: Install dependencies
+  ansible.builtin.shell: mvn clean package
+  args:
+    chdir: /app
+
+- name: Copy shipping file to new destination
+  ansible.builtin.copy:
+    src: /app/target/shipping-1.0.jar
+    dest: /app/shipping.jar
+
+- name: Configure and start catalgoue service
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: systemd
+
+- name: Install mysql
+  ansible.builtin.dnf:
+    name: mysql
+    state: present
+
+- name: Create shipping database
+  ansible.builtin.shell: mysql -h {{ lookup('amazon.aws.aws_ssm', 'mysqlip', region='us-east-1')  }} -uroot -pRoboShop@1 < /app/schema/shipping.sql
+
+- name: Restart service
+  ansible.builtin.systemd_service:
+    name: "{{component}}"
+    state: restarted
