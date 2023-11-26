@@ -8,12 +8,7 @@
     name: common
     tasks_from: user
 
-- name: Install npm dependencies
-  ansible.builtin.shell: npm install
-  args:
-    chdir: /app
-
-- name: Create user and download application code
+- name: Configure and start catalgoue service
   ansible.builtin.import_role:
     name: common
     tasks_from: systemd

@@ -13,3 +13,9 @@
     src: https://roboshop-artifacts.s3.amazonaws.com/{{component}}.zip
     dest: /app
     remote_src: yes
+
+- name: Install npm dependencies
+  ansible.builtin.shell: npm install
+  args:
+    chdir: /app
+
