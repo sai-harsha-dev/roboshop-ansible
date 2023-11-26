@@ -1,0 +1,23 @@
+- name: Install python 
+  ansible.builtin.dnf:
+    name: 
+      - python3.6 
+      - gcc 
+      - python3-devel
+    state: present
+
+- name: Create user and download application code
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: user
+
+- name: Install dependencies
+  ansible.builtin.shell: pip3.6 install -r requirements.txt
+  args:
+    chdir: /app
+
+- name: Configure and start payment service
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: systemd
+
