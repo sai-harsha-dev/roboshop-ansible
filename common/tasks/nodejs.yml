@@ -1,4 +1,4 @@
 - name: Install nodejs
   ansible.builtin.dnf:
-    name: nodejs >= 18
-    state: installed
+    name: '@nodejs:18'
+    state: present
