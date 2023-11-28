@@ -1,7 +1,7 @@
 - name: Install nodejs
-  ansible.builtin.dnf:
-    name: nodejs >= 2.4
-    state: present
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: nodejs
 
 - name: Create user and download application code
   ansible.builtin.import_role:
