@@ -1,5 +1,8 @@
-- name: Install nodejs
-  ansible.builtin.dnf:
-    name: nodejs-18
-    enablerepo: '@nodejs:18'
-    state: present
+- name: Disable default node module
+  ansible.builtin.shell: dnf module disable nodejs -y
+
+- name: Enable node18 module
+  ansible.builtin.shell: dnf module enable nodejs:18 -y
+
+- name: Install nodejs 18
+  ansible.builtin.shell: dnf install nodejs -y
